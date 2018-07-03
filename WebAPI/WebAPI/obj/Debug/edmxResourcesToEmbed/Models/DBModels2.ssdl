@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="moneyworksMDL.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="banks">
+    <Key>
+      <PropertyRef Name="bankId" />
+    </Key>
+    <Property Name="bankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="bankName" Type="varchar" MaxLength="50" />
+    <Property Name="logoUrl" Type="varchar" MaxLength="100" />
+    <Property Name="callCentre" Type="varchar" MaxLength="50" />
+    <Property Name="webSite" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="cards">
+    <Key>
+      <PropertyRef Name="cardId" />
+    </Key>
+    <Property Name="cardId" Type="int" Nullable="false" />
+    <Property Name="bankId" Type="int" />
+    <Property Name="cardName" Type="varchar" MaxLength="50" />
+    <Property Name="imageUrl" Type="varchar" MaxLength="150" />
+    <Property Name="creditLimit" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="annualFee" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="intRate" Type="decimal" Precision="4" Scale="2" />
+  </EntityType>
+  <Association Name="FK_cards_banks">
+    <End Role="banks" Type="Self.banks" Multiplicity="0..1" />
+    <End Role="cards" Type="Self.cards" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="banks">
+        <PropertyRef Name="bankId" />
+      </Principal>
+      <Dependent Role="cards">
+        <PropertyRef Name="bankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetCards" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="searchCards" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="searchName" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="moneyworksMDLStoreContainer">
+    <EntitySet Name="banks" EntityType="Self.banks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cards" EntityType="Self.cards" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_cards_banks" Association="Self.FK_cards_banks">
+      <End Role="banks" EntitySet="banks" />
+      <End Role="cards" EntitySet="cards" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

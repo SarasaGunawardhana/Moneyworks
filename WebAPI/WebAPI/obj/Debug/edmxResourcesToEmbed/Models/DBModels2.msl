@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="moneyworksMDLStoreContainer" CdmEntityContainer="moneyworksSearch">
+    <EntitySetMapping Name="banks">
+      <EntityTypeMapping TypeName="moneyworksMDL.bank">
+        <MappingFragment StoreEntitySet="banks">
+          <ScalarProperty Name="bankId" ColumnName="bankId" />
+          <ScalarProperty Name="bankName" ColumnName="bankName" />
+          <ScalarProperty Name="logoUrl" ColumnName="logoUrl" />
+          <ScalarProperty Name="callCentre" ColumnName="callCentre" />
+          <ScalarProperty Name="webSite" ColumnName="webSite" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cards">
+      <EntityTypeMapping TypeName="moneyworksMDL.card">
+        <MappingFragment StoreEntitySet="cards">
+          <ScalarProperty Name="cardId" ColumnName="cardId" />
+          <ScalarProperty Name="bankId" ColumnName="bankId" />
+          <ScalarProperty Name="cardName" ColumnName="cardName" />
+          <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+          <ScalarProperty Name="creditLimit" ColumnName="creditLimit" />
+          <ScalarProperty Name="annualFee" ColumnName="annualFee" />
+          <ScalarProperty Name="intRate" ColumnName="intRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetCards" FunctionName="moneyworksMDL.Store.GetCards">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="moneyworksMDL.GetCards_Result">
+          <ScalarProperty Name="bankId" ColumnName="bankId" />
+          <ScalarProperty Name="bankName" ColumnName="bankName" />
+          <ScalarProperty Name="cardName" ColumnName="cardName" />
+          <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+          <ScalarProperty Name="logoUrl" ColumnName="logoUrl" />
+          <ScalarProperty Name="intRate" ColumnName="intRate" />
+          <ScalarProperty Name="creditLimit" ColumnName="creditLimit" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="searchCards" FunctionName="moneyworksMDL.Store.searchCards">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="moneyworksMDL.searchCards_Result">
+          <ScalarProperty Name="bankId" ColumnName="bankId" />
+          <ScalarProperty Name="bankName" ColumnName="bankName" />
+          <ScalarProperty Name="cardName" ColumnName="cardName" />
+          <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+          <ScalarProperty Name="logoUrl" ColumnName="logoUrl" />
+          <ScalarProperty Name="intRate" ColumnName="intRate" />
+          <ScalarProperty Name="creditLimit" ColumnName="creditLimit" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

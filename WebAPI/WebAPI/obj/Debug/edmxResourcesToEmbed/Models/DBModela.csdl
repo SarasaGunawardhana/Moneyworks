@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="moneyworksModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="bank">
+    <Key>
+      <PropertyRef Name="bankId" />
+    </Key>
+    <Property Name="bankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="logoUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="callCentre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="webSite" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="cards" Relationship="Self.FK_cards_banks" FromRole="banks" ToRole="cards" />
+  </EntityType>
+  <EntityType Name="card">
+    <Key>
+      <PropertyRef Name="cardId" />
+    </Key>
+    <Property Name="cardId" Type="Int32" Nullable="false" />
+    <Property Name="bankId" Type="Int32" />
+    <Property Name="cardName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="imageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="creditLimit" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="annualFee" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="intRate" Type="Decimal" Precision="4" Scale="2" />
+    <NavigationProperty Name="bank" Relationship="Self.FK_cards_banks" FromRole="cards" ToRole="banks" />
+  </EntityType>
+  <Association Name="FK_cards_banks">
+    <End Role="banks" Type="Self.bank" Multiplicity="0..1" />
+    <End Role="cards" Type="Self.card" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="banks">
+        <PropertyRef Name="bankId" />
+      </Principal>
+      <Dependent Role="cards">
+        <PropertyRef Name="bankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="moneyworksEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="banks" EntityType="Self.bank" />
+    <EntitySet Name="cards" EntityType="Self.card" />
+    <AssociationSet Name="FK_cards_banks" Association="Self.FK_cards_banks">
+      <End Role="banks" EntitySet="banks" />
+      <End Role="cards" EntitySet="cards" />
+    </AssociationSet>
+    <FunctionImport Name="GetCards" ReturnType="Collection(moneyworksModel.GetCards_Result)" />
+  </EntityContainer>
+  <ComplexType Name="GetCards_Result">
+    <Property Type="Int32" Name="bankId" Nullable="false" />
+    <Property Type="String" Name="bankName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="cardName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="imageUrl" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="logoUrl" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="intRate" Nullable="true" Precision="4" Scale="2" />
+    <Property Type="Decimal" Name="creditLimit" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+</Schema>
